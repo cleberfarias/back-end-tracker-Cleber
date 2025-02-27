@@ -9,7 +9,7 @@ class TaskModel(BaseModel):
     # Campo obrigatório do tipo string que armazena a descrição da tarefa.
     descricao: str
     # Campo obrigatório do tipo inteiro que armazena a duração da tarefa em segundos.
-    duracacaoEmSegundos: int
+    duracaoEmSegundos: int
 
 
 # Define uma classe TaskUpdateModel que herda de BaseModel.
@@ -17,4 +17,4 @@ class TaskUpdateModel(BaseModel):
     # Campo opcional do tipo string que armazena a descrição da tarefa. Pode ser None.
     descricao: Optional[str] = None
     # Campo opcional do tipo inteiro que armazena a duração da tarefa em segundos. Pode ser None.
-    duracacaoEmSegundos: Optional[int] = None
+    duracaoEmSegundos: Optional[int] = None

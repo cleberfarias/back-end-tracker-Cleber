@@ -1,0 +1,53 @@
+[33mcommit 309c9eda01cff6bae5ff268dc42aea74a59ecc33[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: cleberfarias <cleber_afd@hotmail.com>
+Date:   Thu Feb 27 13:24:38 2025 -0300
+
+    ..
+
+[33mcommit 3e188db7bad3ef679b1ecb71fc733e87a6ec150c[m
+Author: cleberfarias <cleber_afd@hotmail.com>
+Date:   Thu Feb 27 11:22:10 2025 -0300
+
+    correções
+
+[33mcommit 0ec97de2065e7db83a4afb2504eded2b9c6458a1[m
+Author: cleberfarias <cleber_afd@hotmail.com>
+Date:   Thu Feb 27 11:10:32 2025 -0300
+
+    Corrigindo start command e estrutura do projeto
+
+[33mcommit 8fe4739f2df13759d3e60ea2d1c97f9c6c87e57e[m
+Author: cleberfarias <cleber_afd@hotmail.com>
+Date:   Thu Feb 27 11:05:29 2025 -0300
+
+    Corrigindo versão do Motor no requirements.txt
+
+[33mcommit 345a2ae64c2c67e5e8eff9ba6d4f6f080937a1de[m
+Author: cleberfarias <cleber_afd@hotmail.com>
+Date:   Thu Feb 27 10:58:28 2025 -0300
+
+    Corrigindo erro no requirements.txt
+
+[33mcommit c62cf24f36ce2cd5751d483f7a182a3a5431cbee[m
+Author: cleberfarias <cleber_afd@hotmail.com>
+Date:   Thu Feb 27 10:50:55 2025 -0300
+
+    Adicionando Procfile para deploy no Railway
+
+[33mcommit 99913a76ae3de52e57bd05775123cbfd0c6f2a5c[m
+Author: cleberfarias <cleber_afd@hotmail.com>
+Date:   Thu Feb 27 10:36:34 2025 -0300
+
+    Adicionando Procfile para deploy no Railway
+
+[33mcommit 845ca2695e73acf38ea1c5fb368ac531058e7c0b[m
+Author: cleberfarias <cleber_afd@hotmail.com>
+Date:   Thu Feb 27 10:27:04 2025 -0300
+
+    Adicionando Procfile para Railway
+
+[33mcommit d5fcb6f41d141e20b8e695922be5a3463be428c7[m
+Author: cleberfarias <cleber_afd@hotmail.com>
+Date:   Thu Feb 27 10:21:45 2025 -0300
+
+    Subindo apenas o backend

@@ -9,18 +9,21 @@ from bson import ObjectId
 
 def task_helper(task) -> dict:
     return {
-        "id": str(task["_id"]),  # Converte o ObjectId para string
-        "description": task["description"],  # Pega a descrição da tarefa
-        # Pega a duração da tarefa em segundos
-        "duration_in_seconds": task["duration_in_seconds"],
+        "id": str(task["_id"]),
+        "descricao": task.get("descricao", task.get("description", "Sem descrição")),
+        "duracaoEmSegundos": task.get("duracaoEmSegundos", 0),
     }
-
-# Classe repositório para gerenciar tarefas no MongoDB
 
 
 class TaskRepository:
     def __init__(self, collection):
         self.collection = collection  # Inicializa a classe com a coleção do MongoDB
+
+    async def get_all_tasks(self) -> List[dict]:
+        tasks = []
+        async for task in self.collection.find():
+            tasks.append(task_helper(task))
+        return tasks
 
     # Método assíncrono para criar uma nova tarefa
     async def create_tasks(self, task_data: dict) -> dict:
@@ -59,29 +62,34 @@ class TaskRepository:
             return task_helper(existing_task)
         # Lança exceção se a tarefa não for encontrada
         raise HTTPException(status_code=404, detail="Tarefa não encontrada")
+    async def get_all_tasks(self) -> List[dict]:
+        tasks = []
+        async for task in self.collection.find():  # Busca todas as tarefas no MongoDB
+            tasks.append(task_helper(task))  # Converte cada tarefa para dicionário
+        return tasks
 
-    # Método assíncrono para deletar uma tarefa pelo ID
-    # Método assíncrono para deletar uma tarefa pelo ID
 
+    async def delete_task(self, task_id: str) -> dict:
+        try:
+            clean_task_id = task_id.strip().replace(
+                "{", "").replace("}", "")  # Remove caracteres extras
+            print(f"🔴 Recebido ID para deletar: {clean_task_id}")  # Debug
 
-async def delete_task(self, task_id: str) -> dict:
-    try:
-        clean_task_id = task_id.replace(
-            "{", "").replace("}", "")  # Remove { } se houver
+        # Verifica se o ID é válido
+            if not ObjectId.is_valid(clean_task_id):
+                raise HTTPException(status_code=400, detail="ID inválido")
 
-        print(f"🔴 Recebido ID para deletar: {clean_task_id}")  # Debug
+        # Tenta deletar pelo ID
+            result = await self.collection.delete_one({"_id": ObjectId(clean_task_id)})
 
-        # Deleta pelo ID
-        result = await self.collection.delete_one({"_id": ObjectId(clean_task_id)})
+            if result.deleted_count == 1:
+                print(
+                    f"✅ Tarefa {clean_task_id} deletada com sucesso no banco de dados")
+                return {"mensagem": "Tarefa deletada com sucesso"}
 
-        if result.deleted_count == 1:
-            print(
-                f"✅ Tarefa {clean_task_id} deletada com sucesso no banco de dados")
-            return {"mensagem": "Tarefa deletada com sucesso"}
+            print("❌ Tarefa não encontrada para deletar")
+            raise HTTPException(status_code=404, detail="Tarefa não encontrada")
 
-        print("❌ Tarefa não encontrada para deletar")
-        raise HTTPException(status_code=404, detail="Tarefa não encontrada")
-
-    except Exception as e:
-        print("❌ Erro ao deletar tarefa:", str(e))
-        raise HTTPException(status_code=500, detail="Erro interno no servidor")
+        except Exception as e:
+            print("❌ Erro ao deletar tarefa:", str(e))
+            raise HTTPException(status_code=500, detail="Erro interno no servidor")

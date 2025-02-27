@@ -3,6 +3,8 @@ from typing import List
 from .models import TaskModel, TaskUpdateModel
 from .database import Database
 from .repositories import TaskRepository
+from fastapi.middleware.cors import CORSMiddleware
+
 
 
 app = FastAPI()  # Cria uma instância da classe FastAPI
@@ -33,7 +35,8 @@ task_repository = TaskRepository(task_collection)
 
 @app.post("/tasks", response_model=dict)
 async def create_task(task: TaskModel):
-    print("📥 Recebido no Backend:", body)
+    
+    print("📥 Recebido no Backend:", task.dict())
     task_data = task.dict()
     return await task_repository.create_tasks(task_data)
 
