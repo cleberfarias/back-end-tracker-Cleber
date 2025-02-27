@@ -1,8 +1,9 @@
 from fastapi import FastAPI
 from typing import List
-from .models import TaskModel, TaskUpdateModel
-from .database import Database
-from .repositories import TaskRepository
+from models import TaskModel, TaskUpdateModel
+from database import Database
+from repositories import TaskRepository
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()  # Cria uma instância da classe FastAPI
