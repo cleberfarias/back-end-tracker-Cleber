@@ -50,7 +50,7 @@ async def root():
 async def create_task(task: TaskModel):
     
     task_data = task.dict()
-    return await task_repository.create_tasks(task_data)
+    return await task_repository.create_task(task_data)
 
 
 @app.get("/tasks", response_model=List[dict])
