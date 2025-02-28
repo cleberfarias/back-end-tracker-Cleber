@@ -19,11 +19,15 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
+    allow_origins=[
+        "https://cleber-tracker.vercel.app",  
+        "http://localhost:8080",  
+        "http://127.0.0.1:8080"
+    ],  
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],  
 )
+
 
 MONGO_DETAILS = "mongodb+srv://cleberfdelgado:kyCtZaryRLj4bU3M@cleber-task.zi7ozqr.mongodb.net/?retryWrites=true&w=majority&appName=cleber-task"
 
@@ -33,9 +37,6 @@ DB_NAME = "cleber-task"
 client = AsyncIOMotorClient(MONGO_DETAILS)
 db = client[DB_NAME]
 task_collection = db["tasks"]
-
-
-task_repository = TaskRepository(task_collection)
 
 db = Database(MONGO_DETAILS, DB_NAME)
 task_collection = db.get_collection("tasks")
