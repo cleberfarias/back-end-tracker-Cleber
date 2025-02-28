@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 
-app = FastAPI()  # Cria uma instância da classe FastAPI
+app = FastAPI()  
 
 origins = [
     "http://192.168.1.25:8080",
@@ -18,7 +18,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # permite as origens listadas
+    allow_origins=origins,  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -36,7 +36,6 @@ task_repository = TaskRepository(task_collection)
 @app.post("/tasks", response_model=dict)
 async def create_task(task: TaskModel):
     
-    print("📥 Recebido no Backend:", task.dict())
     task_data = task.dict()
     return await task_repository.create_tasks(task_data)
 
