@@ -17,7 +17,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  
+    allow_origins=["https://cleber-tracker.vercel.app"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -31,6 +31,9 @@ db = Database(MONGO_DETAILS, DB_NAME)
 task_collection = db.get_collection("tasks")
 task_repository = TaskRepository(task_collection)
 
+@app.get("/")  # ✅ Para testar se a API está rodando
+async def root():
+    return {"message": "API está rodando!"}
 
 @app.post("/tasks", response_model=dict)
 async def create_task(task: TaskModel):
