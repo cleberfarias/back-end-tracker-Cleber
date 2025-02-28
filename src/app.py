@@ -1,9 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from typing import List
 from .models import TaskModel, TaskUpdateModel
 from .database import Database
 from .repositories import TaskRepository
 from fastapi.middleware.cors import CORSMiddleware
+from bson import ObjectId
+from motor.motor_asyncio import AsyncIOMotorClient
 
 
 
@@ -17,7 +19,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://cleber-tracker.vercel.app"],  
+    allow_origins=origins,  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -26,6 +28,14 @@ app.add_middleware(
 MONGO_DETAILS = "mongodb+srv://cleberfdelgado:kyCtZaryRLj4bU3M@cleber-task.zi7ozqr.mongodb.net/?retryWrites=true&w=majority&appName=cleber-task"
 
 DB_NAME = "cleber-task"
+
+
+client = AsyncIOMotorClient(MONGO_DETAILS)
+db = client[DB_NAME]
+task_collection = db["tasks"]
+
+
+task_repository = TaskRepository(task_collection)
 
 db = Database(MONGO_DETAILS, DB_NAME)
 task_collection = db.get_collection("tasks")
@@ -61,3 +71,8 @@ async def update_task(task_id: str, task: TaskUpdateModel):
 @app.delete("/tasks/{task_id}", response_model=dict)
 async def delete_task(task_id: str):
     return await task_repository.delete_task(task_id)
+# ✅ Fechando a conexão com o banco ao desligar a API
+@app.on_event("shutdown")
+async def shutdown_db_client():
+    print("🛑 Fechando conexão com MongoDB...")
+    client.close()
